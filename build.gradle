@@ -3,7 +3,7 @@ apply plugin: 'maven'
 apply plugin: 'eclipse'
 
 project.ext {
-    jedis_version = "2.7"
+    jedis_version = "2.9"
 }
 
 group = 'com.centricient'

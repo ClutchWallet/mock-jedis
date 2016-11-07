@@ -1138,6 +1138,20 @@ public class MockTransaction extends Transaction {
     }
 
     @Override
+    public Response<Long> zcount(String key, double min, double max) {
+        Response resp = pipeline.zcount(key, min, max);
+        responses.add(resp);
+        return resp;
+    }
+
+    @Override
+    public Response<Long> zcount(byte[] key, double min, double max) {
+        Response resp = pipeline.zcount(key, min, max);
+        responses.add(resp);
+        return resp;
+    }
+
+    @Override
     public Response<Long> zrem(byte[] key, byte[]... member) {
         Response resp = pipeline.zrem(key, member);
         responses.add(resp);
