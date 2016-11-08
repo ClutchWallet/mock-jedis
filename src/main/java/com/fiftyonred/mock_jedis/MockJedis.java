@@ -941,12 +941,12 @@ public class MockJedis extends Jedis {
 
 	@Override
 	public Long zcount(String key, double min, double max) {
-		throw new UnsupportedOperationException(NOT_IMPLEMENTED);
+		return pipeline.zcount(key, min, max).get();
 	}
 
 	@Override
 	public Long zcount(String key, String min, String max) {
-		throw new UnsupportedOperationException(NOT_IMPLEMENTED);
+		return pipeline.zcount(key, min, max).get();
 	}
 
 	@Override
@@ -1682,12 +1682,12 @@ public class MockJedis extends Jedis {
 
 	@Override
 	public Long zcount(byte[] key, double min, double max) {
-		throw new UnsupportedOperationException(NOT_IMPLEMENTED);
+		return pipeline.zcount(key, min, max).get();
 	}
 
 	@Override
 	public Long zcount(byte[] key, byte[] min, byte[] max) {
-		throw new UnsupportedOperationException(NOT_IMPLEMENTED);
+		return pipeline.zcount(key, min, max).get();
 	}
 
 	@Override

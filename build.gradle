@@ -7,7 +7,7 @@ project.ext {
 }
 
 group = 'com.centricient'
-version = '0.1.14'
+version = '0.1.15'
 
 sourceCompatibility = 1.6
 targetCompatibility = 1.6
