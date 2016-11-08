@@ -311,4 +311,9 @@ public class MockJedisTest {
 		j.select(5);
 		assertEquals(1L, j.dbSize().longValue());
 	}
+
+	@Test
+	public void testZCount() {
+		j.zcount("foo", 0, 1);
+	}
 }
