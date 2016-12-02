@@ -7,7 +7,7 @@ project.ext {
 }
 
 group = 'com.centricient'
-version = '0.1.18'
+version = '0.1.19'
 
 sourceCompatibility = 1.6
 targetCompatibility = 1.6
@@ -46,7 +46,7 @@ artifacts {
         repositories {
             mavenDeployer {
                 repository(url: "http://nexus.centricient.corp:8081/nexus/content/repositories/releases/") {
-                    authentication(userName: 'deployment', password: 'c8c4ii2WJkTmp88F9njZG2j7At6E4D')
+                    authentication(userName: 'deployment', password: 'xxxx')
                 }
                 pom.version = version
                 pom.artifactId = rootProject.name
