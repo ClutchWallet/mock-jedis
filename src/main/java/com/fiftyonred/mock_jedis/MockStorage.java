@@ -909,8 +909,10 @@ public class MockStorage {
 			start = Math.max((start < 0) ? sorted.size() + start : start, 0);
 			end   = Math.max((end < 0)   ? sorted.size() + end   : Math.min(sorted.size() - 1, end), 0);
 
-			for (int i = (int)start; i <= end; i++) {
-			    matches.add(sorted.get(i).container);
+			if (matches.size() > 0) {
+				for (int i = (int) start; i <= end; i++) {
+					matches.add(sorted.get(i).container);
+				}
 			}
 		}
 
