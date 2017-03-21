@@ -42,17 +42,20 @@ artifacts {
 }
 
 //noinspection GroovyMissingReturnStatement
+if (rootProject.properties['nexusUser']) {
+    //noinspection GroovyMissingReturnStatement
     uploadArchives {
         repositories {
             mavenDeployer {
-                repository(url: "http://nexus.centricient.corp:8081/nexus/content/repositories/releases/") {
-                    authentication(userName: 'deployment', password: 'xxxx')
+                repository(url: "$nexusUrl/repository/maven-releases") {
+                    authentication(userName: nexusUser, password: nexusPassword)
                 }
                 pom.version = version
                 pom.artifactId = rootProject.name
             }
         }
     }
+}
 
 task projectVersion << {
     println version
