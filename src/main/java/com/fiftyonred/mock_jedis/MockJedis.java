@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Set;
 
 import redis.clients.jedis.*;
+import redis.clients.jedis.params.sortedset.ZAddParams;
 import redis.clients.util.Pool;
 import redis.clients.util.Slowlog;
 
@@ -851,6 +852,11 @@ public class MockJedis extends Jedis {
 	@Override
 	public Long zadd(String key, double score, String member) {
 		return pipeline.zadd(key, score, member).get();
+	}
+
+	@Override
+	public Long zadd(String key, double score, String member, ZAddParams params) {
+		return pipeline.zadd(key, score, member, params).get();
 	}
 
 	@Override

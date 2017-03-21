@@ -5,6 +5,7 @@ import redis.clients.jedis.Protocol;
 import redis.clients.jedis.SortingParams;
 import redis.clients.jedis.Tuple;
 import redis.clients.jedis.exceptions.JedisDataException;
+import redis.clients.jedis.params.sortedset.ZAddParams;
 
 import java.util.*;
 
@@ -836,24 +837,38 @@ public class MockStorage {
 		return list;
 	}
 
-	public synchronized long zadd(final DataContainer key, double score, final DataContainer member) {
+	public synchronized long zadd(final DataContainer key, double score, final DataContainer member, final ZAddParams params) {
 		final Set<ScoredDataContainer> map = getSortedSetFromStorage(key, true);
 
-		long added = 0L;
+		ScoredDataContainer entry = new ScoredDataContainer(score, member);
 
-        if (map.add(new ScoredDataContainer(score, member))) {
-			added += 1;
+		long changed = 0L;
+
+		if (map.contains(entry) && params.contains("nx"))
+			return changed;
+
+		if (!map.contains(entry) && params.contains("xx"))
+			return changed;
+
+		long added = 0L;
+        if (map.add(entry)) {
+        	added += 1;
 		}
 
-		return added;
+		if (params.contains("ch")) {
+        	return changed + added;
+		} else {
+        	return added;
+		}
 	}
+
 
 	public synchronized long zadd(final String key, Map<String, Double> scoreMembers) {
 
 		long ret = 0L;
 
 		for (Map.Entry<String, Double> entry : scoreMembers.entrySet()) {
-			ret += zadd(DataContainer.from(key), entry.getValue(), DataContainer.from(entry.getKey()));
+			ret += zadd(DataContainer.from(key), entry.getValue(), DataContainer.from(entry.getKey()), null);
 		}
 
 		return ret;

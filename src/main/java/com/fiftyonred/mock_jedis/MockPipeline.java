@@ -2,6 +2,7 @@ package com.fiftyonred.mock_jedis;
 
 import redis.clients.jedis.*;
 import redis.clients.jedis.exceptions.JedisDataException;
+import redis.clients.jedis.params.sortedset.ZAddParams;
 
 import java.util.*;
 
@@ -1025,14 +1026,21 @@ public class MockPipeline extends Pipeline {
 	@Override
 	public Response<Long> zadd(final String key, double score, final String member) {
 		final Response<Long> response = new Response<Long>(BuilderFactory.LONG);
-		response.set(mockStorage.zadd(DataContainer.from(key), score, DataContainer.from(member)));
+		response.set(mockStorage.zadd(DataContainer.from(key), score, DataContainer.from(member), ZAddParams.zAddParams()));
+		return response;
+	}
+
+	@Override
+	public Response<Long> zadd(final String key, double score, final String member, final ZAddParams params) {
+		final Response<Long> response = new Response<Long>(BuilderFactory.LONG);
+		response.set(mockStorage.zadd(DataContainer.from(key), score, DataContainer.from(member), params));
 		return response;
 	}
 
 	@Override
 	public Response<Long> zadd(byte[] key, double score, byte[] member) {
 		final Response<Long> response = new Response<Long>(BuilderFactory.LONG);
-		response.set(mockStorage.zadd(DataContainer.from(key), score, DataContainer.from(member)));
+		response.set(mockStorage.zadd(DataContainer.from(key), score, DataContainer.from(member), ZAddParams.zAddParams()));
 		return response;
 	}
 

@@ -1,6 +1,7 @@
 package com.fiftyonred.mock_jedis;
 
 import redis.clients.jedis.*;
+import redis.clients.jedis.params.sortedset.ZAddParams;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -1119,6 +1120,13 @@ public class MockTransaction extends Transaction {
     @Override
     public Response<Long> zadd(String key, double score, String member) {
         Response resp = pipeline.zadd(key, score, member);
+        responses.add(resp);
+        return resp;
+    }
+
+    @Override
+    public Response<Long> zadd(String key, double score, String member, ZAddParams params) {
+        Response resp = pipeline.zadd(key, score, member, params);
         responses.add(resp);
         return resp;
     }
