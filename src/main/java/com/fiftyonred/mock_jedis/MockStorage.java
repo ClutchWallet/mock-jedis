@@ -837,8 +837,10 @@ public class MockStorage {
 		return list;
 	}
 
-	public synchronized long zadd(final DataContainer key, double score, final DataContainer member, final ZAddParams params) {
+	public synchronized long zadd(final DataContainer key, double score, final DataContainer member, final ZAddParams aParams) {
 		final Set<ScoredDataContainer> map = getSortedSetFromStorage(key, true);
+
+		ZAddParams params = (aParams == null) ? ZAddParams.zAddParams() : aParams;
 
 		ScoredDataContainer entry = new ScoredDataContainer(score, member);
 
