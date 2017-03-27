@@ -623,6 +623,31 @@ public class MockStorage {
         return list == null || list.isEmpty() ? null : list.remove(0);
     }
 
+	public synchronized long lrem(final DataContainer key, final long count, final DataContainer string) {
+		final List<DataContainer> list = getListFromStorage(key, true);
+
+		long removedCount = 0;
+		long limit = count == 0 ? Long.MAX_VALUE : Math.abs(count);
+		// search in reverse order if the count is negative
+		if(count < 0) {
+			Collections.reverse(list);
+		}
+
+		for (Iterator<DataContainer> iterator = list.iterator(); limit > 0 && iterator.hasNext();) {
+			DataContainer element = iterator.next();
+			if(element.equals(string)) {
+				iterator.remove();
+				limit--;
+			}
+		}
+
+		// restore the old order
+		if(count < 0) {
+			Collections.reverse(list);
+		}
+		return removedCount;
+	}
+
 	public synchronized int llen(final DataContainer key) {
 		final List<DataContainer> list = getListFromStorage(key, false);
 		return list == null ? 0 : list.size();

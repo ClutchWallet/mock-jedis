@@ -144,6 +144,33 @@ public class MockJedisTest {
         assertEquals(Long.valueOf(0), j.llen("test"));
 	}
 
+	@Test
+	public void testListRemoval() {
+		j.rpush("test", "x");
+		j.rpush("test", "x");
+		j.rpush("test", "y");
+		j.rpush("test", "x");
+		// test removal starting at the tail
+		j.lrem("test", -2, "x");
+		List<String> list = j.lrange("test", 0, -1);
+		assertEquals(2, list.size());
+		assertEquals("x", list.get(0));
+		assertEquals("y", list.get(1));
+		j.del("test");
+
+		j.rpush("test", "x");
+		j.rpush("test", "x");
+		j.rpush("test", "y");
+		j.rpush("test", "x");
+		// test removal starting at the head
+		j.lrem("test", 2, "x");
+		list = j.lrange("test", 0, -1);
+		assertEquals(2, list.size());
+		assertEquals("y", list.get(0));
+		assertEquals("x", list.get(1));
+		j.del("test");
+	}
+
     @Test
     public void testMixedListPush() {
         assertEquals(Long.valueOf(0), j.llen("test"));

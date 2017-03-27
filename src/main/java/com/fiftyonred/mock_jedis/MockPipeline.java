@@ -961,6 +961,20 @@ public class MockPipeline extends Pipeline {
     }
 
 	@Override
+	public Response<Long> lrem(String key, long count, String value) {
+		final Response<Long> response = new Response<Long>(BuilderFactory.LONG);
+		response.set(mockStorage.lrem(DataContainer.from(key), count, DataContainer.from(value)));
+		return response;
+	}
+
+	@Override
+	public Response<Long> lrem(byte[] key, long count, byte[] value) {
+		final Response<Long> response = new Response<Long>(BuilderFactory.LONG);
+		response.set(mockStorage.lrem(DataContainer.from(key), count, DataContainer.from(value)));
+		return response;
+	}
+
+	@Override
 	public Response<Long> llen(final String key) {
 		final Response<Long> response = new Response<Long>(BuilderFactory.LONG);
 		response.set((long) mockStorage.llen(DataContainer.from(key)));

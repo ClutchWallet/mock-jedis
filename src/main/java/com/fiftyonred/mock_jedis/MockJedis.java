@@ -1,13 +1,13 @@
 package com.fiftyonred.mock_jedis;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import redis.clients.jedis.*;
 import redis.clients.jedis.params.sortedset.ZAddParams;
 import redis.clients.util.Pool;
 import redis.clients.util.Slowlog;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class MockJedis extends Jedis {
 
@@ -826,7 +826,7 @@ public class MockJedis extends Jedis {
 
 	@Override
 	public Long lrem(String key, long count, String value) {
-		throw new UnsupportedOperationException(NOT_IMPLEMENTED);
+		return pipeline.lrem(key, count, value).get();
 	}
 
 	@Override
