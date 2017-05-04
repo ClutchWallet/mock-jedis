@@ -381,6 +381,10 @@ public class MockJedisTest {
     assertEquals(2L, j.llen("list1").longValue());
     assertEquals("def", j.rpoplpush("list1", "list1"));
     assertEquals(2L, j.llen("list1").longValue());
+    
+    assertEquals("abc", j.rpop("list1"));
+    assertEquals("def", j.rpop("list1"));
+    assertNull(j.rpop("list2"));
   }
 
 }
