@@ -959,6 +959,22 @@ public class MockPipeline extends Pipeline {
         response.set(result == null ? null : result.getBytes());
         return response;
     }
+  
+  @Override
+  public Response<String> rpoplpush(final String srckey, final String dstkey) {
+    final Response<String> response = new Response<String>(BuilderFactory.STRING);
+    final DataContainer result = mockStorage.rpoplpush(DataContainer.from(srckey), DataContainer.from(dstkey));
+    response.set(result == null ? null : result.getBytes());
+    return response;
+  }
+  
+  @Override
+  public Response<byte[]> rpoplpush(final byte[] srckey, final byte[] dstkey) {
+    final Response<byte[]> response = new Response<byte[]>(BuilderFactory.BYTE_ARRAY);
+    final DataContainer result = mockStorage.rpoplpush(DataContainer.from(srckey), DataContainer.from(dstkey));
+    response.set(result == null ? null : result.getBytes());
+    return response;
+  }
 
 	@Override
 	public Response<Long> lrem(String key, long count, String value) {

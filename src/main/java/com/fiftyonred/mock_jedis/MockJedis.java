@@ -836,7 +836,7 @@ public class MockJedis extends Jedis {
 
 	@Override
 	public String rpoplpush(String srckey, String dstkey) {
-		throw new UnsupportedOperationException(NOT_IMPLEMENTED);
+		return pipeline.rpoplpush(srckey, dstkey).get();
 	}
 
 	@Override

@@ -623,6 +623,7 @@ public class MockStorage {
         return list == null || list.isEmpty() ? null : list.remove(0);
     }
 
+
 	public synchronized long lrem(final DataContainer key, final long count, final DataContainer string) {
 		final List<DataContainer> list = getListFromStorage(key, true);
 
@@ -647,6 +648,24 @@ public class MockStorage {
 		}
 		return removedCount;
 	}
+
+  public synchronized DataContainer rpoplpush(final DataContainer srckey, final DataContainer dstkey) {
+    final List<DataContainer> srclist = getListFromStorage(srckey, true);
+    if(srclist == null || srclist.isEmpty()) {
+      return null;
+    } else {
+      DataContainer element = srclist.remove(srclist.size() - 1);
+      
+      List<DataContainer> dstlist = getListFromStorage(dstkey, true);
+      if(dstlist == null) {
+        dstlist = new ArrayList<DataContainer>();
+        listStorage.put(dstkey, dstlist);
+      }
+      dstlist.add(0, element);
+      
+      return element;
+    }
+  }
 
 	public synchronized int llen(final DataContainer key) {
 		final List<DataContainer> list = getListFromStorage(key, false);

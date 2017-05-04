@@ -343,4 +343,44 @@ public class MockJedisTest {
 	public void testZCount() {
 		j.zcount("foo", 0, 1);
 	}
+
+  @Test
+  public void testRpoplpush() {
+    j.rpush("list1", "abc");
+    j.rpush("list1", "def");
+    String element = j.rpoplpush("list1", "list2");
+    assertEquals("def", element);
+
+    assertEquals(1L, j.llen("list1").longValue());
+    assertEquals(1L, j.llen("list2").longValue());
+
+    element = j.rpoplpush("list1", "list2");
+    assertEquals("abc", element);
+    
+    assertEquals(0L, j.llen("list1").longValue());
+    assertEquals(2L, j.llen("list2").longValue());
+    
+    element = j.rpoplpush("list1", "list2");
+    assertNull(element);
+    
+    assertEquals("def", j.rpop("list2"));
+    assertEquals("abc", j.rpop("list2"));
+    assertNull(j.rpop("list2"));
+  }
+  
+  /**
+   * Test RPOPLPUSH with srckey == dstkey
+   */
+  @Test
+  public void testRpoplpushCycle() {
+    j.rpush("list1", "abc");
+    j.rpush("list1", "def");
+    assertEquals("def", j.rpoplpush("list1", "list1"));
+    assertEquals(2L, j.llen("list1").longValue());
+    assertEquals("abc", j.rpoplpush("list1", "list1"));
+    assertEquals(2L, j.llen("list1").longValue());
+    assertEquals("def", j.rpoplpush("list1", "list1"));
+    assertEquals(2L, j.llen("list1").longValue());
+  }
+
 }
